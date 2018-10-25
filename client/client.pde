@@ -1,6 +1,7 @@
 import processing.net.*; 
 
-Client myClient;
+Client Player;
+int dataIn; 
 
 PImage board;
 PImage dice1;
@@ -36,6 +37,10 @@ void setup() {
 }
 
 void draw() {
+  if (Player.available() > 0) { 
+    dataIn = Player.read(); 
+  } 
+  
   if (!start) {
     fill(255, 255, 255, fadeValue);
     rect(0, 0, width, height);

@@ -1,27 +1,24 @@
 class game_piece {
-  int playerNumber;
+  int dimensions = 30;
 
-  game_piece (int playerNumber) {
-    this.playerNumber = playerNumber;
+  game_piece () {
   }
 
-  boolean isAtStart (int field) {
-    if (field > 0 && field < 5) {
-      return true;
+  void place(int xPos, int yPos, int playerNumber) {
+    strokeWeight(2);
+
+    if (playerNumber == 1) {
+      fill(0, 255, 0);
+    } else if (playerNumber == 2) {
+      fill(255, 0, 0);
+    } else if (playerNumber == 3) {
+      fill(255, 255, 0);
+    } else if (playerNumber == 4) {
+      fill(0, 0, 255);
     } else {
-      return false;
+      fill(0, 0, 0);
     }
-  }
-  
-  String playerColour() {
-    if(playerNumber == 1) {
-      return "Yellow";
-    } else if(playerNumber == 2) {
-      return "Green";
-    } else if(playerNumber == 3) {
-      return "Red";
-    } else {
-      return "Blue";
-    }
+
+    ellipse(xPos, yPos, dimensions, dimensions);
   }
 }

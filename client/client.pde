@@ -11,13 +11,41 @@ PImage dice4;
 PImage dice5;
 PImage dice6;
 
-int dimensions = 30;
+//int dimensions = 30;
 dice dice;
 int diceRoll;
+
 boolean start;
 int fadeValue = 255;
 boolean fade = false;
+
 String diceNumber;
+int players = 2;
+
+game_piece gp11, gp12, gp13, gp14;
+game_piece gp21, gp22, gp23, gp24;
+game_piece gp31, gp32, gp33, gp34;
+game_piece gp41, gp42, gp43, gp44;
+
+int gp11X = 93, gp11Y = 130;
+int gp12X = 130, gp12Y = 93;
+int gp13X = 168, gp13Y = 130;
+int gp14X = 130, gp14Y = 168;
+
+int gp21X = 432, gp21Y = 130;
+int gp22X = 469, gp22Y = 93;
+int gp23X = 507, gp23Y = 130;
+int gp24X = 469, gp24Y = 168;
+
+int gp31X = 93, gp31Y = 468;
+int gp32X = 130, gp32Y = 430;
+int gp33X = 168, gp33Y = 468;
+int gp34X = 130, gp34Y = 506;
+
+int gp41X = 432, gp41Y = 468;
+int gp42X = 469, gp42Y = 430;
+int gp43X = 507, gp43Y = 468;
+int gp44X = 469, gp44Y = 506;
 
 void setup() {
   board = loadImage("LudoBoard.png");
@@ -33,14 +61,31 @@ void setup() {
   background(255);
   dice = new dice();
   textSize(width/20);
+
+  gp11 = new game_piece();
+  gp12 = new game_piece();
+  gp13 = new game_piece();
+  gp14 = new game_piece();
+  gp21 = new game_piece();
+  gp22 = new game_piece();
+  gp23 = new game_piece();
+  gp24 = new game_piece();
+  gp31 = new game_piece();
+  gp32 = new game_piece();
+  gp33 = new game_piece();
+  gp34 = new game_piece();
+  gp41 = new game_piece();
+  gp42 = new game_piece();
+  gp43 = new game_piece();
+  gp44 = new game_piece();
   //myClient = new Client(this, "127.0.0.1", 8000);
 }
 
 void draw() {
-  if (Player.available() > 0) { 
-    dataIn = Player.read(); 
-  } 
-  
+  /*if (Player.available() > 0) { 
+   dataIn = Player.read(); 
+   } */
+
   if (!start) {
     fill(255, 255, 255, fadeValue);
     rect(0, 0, width, height);
@@ -61,30 +106,35 @@ void draw() {
     }
   } else {
     image(board, 0, 0);
-    strokeWeight(2);
-    fill(0, 255, 0);
-    ellipse(93, 130, dimensions, dimensions); //Green1
-    ellipse(130, 92, dimensions, dimensions); //Green2
-    ellipse(168, 130, dimensions, dimensions); //Green3
-    ellipse(130, 168, dimensions, dimensions); //Green4
 
-    fill(255, 0, 0);
-    ellipse(432, 130, dimensions, dimensions); //Red1
-    ellipse(469, 92, dimensions, dimensions); //Red2
-    ellipse(507, 130, dimensions, dimensions); //Red3
-    ellipse(469, 168, dimensions, dimensions); //Red4
+    gp11.place(gp11X, gp11Y, 1);
+    gp12.place(gp12X, gp12Y, 1);
+    gp13.place(gp13X, gp13Y, 1);
+    gp14.place(gp14X, gp14Y, 1);
 
-    fill(255, 255, 0);
-    ellipse(93, 468, dimensions, dimensions); //Yellow1
-    ellipse(130, 430, dimensions, dimensions); //Yellow2
-    ellipse(168, 468, dimensions, dimensions); //Yellow3
-    ellipse(130, 506, dimensions, dimensions); //Yellow4
+    gp21.place(gp21X, gp21Y, 2);
+    gp22.place(gp22X, gp22Y, 2);
+    gp23.place(gp23X, gp23Y, 2);
+    gp24.place(gp24X, gp24Y, 2);
 
-    fill(0, 0, 255);
-    ellipse(432, 468, dimensions, dimensions); //Blue1
-    ellipse(469, 430, dimensions, dimensions); //Blue2
-    ellipse(507, 468, dimensions, dimensions); //Blue3
-    ellipse(469, 506, dimensions, dimensions); //Blue4
+    if (players == 3) {
+      gp31.place(gp31X, gp31Y, players);
+      gp32.place(gp32X, gp32Y, players);
+      gp33.place(gp33X, gp33Y, players);
+      gp34.place(gp34X, gp34Y, players);
+    }
+
+    if (players == 4) {
+      gp31.place(gp31X, gp31Y, players-1);
+      gp32.place(gp32X, gp32Y, players-1);
+      gp33.place(gp33X, gp33Y, players-1);
+      gp34.place(gp34X, gp34Y, players-1);
+
+      gp41.place(gp41X, gp41Y, players);
+      gp42.place(gp42X, gp42Y, players);
+      gp43.place(gp43X, gp43Y, players);
+      gp44.place(gp44X, gp44Y, players);
+    }
 
     fill(255);
     rect(600, 200, 250, 120);
@@ -98,18 +148,20 @@ void mousePressed() {
     if (mouseX > 600 && mouseX < 850 && mouseY > 200 && mouseY < 320) {
       diceRoll = dice.roll();
       diceNumber = str(diceRoll);
-      
-      if(diceRoll == 1) {
-       image(dice1, 675, 50); 
-      } else if(diceRoll == 2) {
+
+      //gp1X += diceRoll;
+
+      if (diceRoll == 1) {
+        image(dice1, 675, 50);
+      } else if (diceRoll == 2) {
         image(dice2, 675, 50);
-      } else if(diceRoll == 3) {
+      } else if (diceRoll == 3) {
         image(dice3, 675, 50);
-      } else if(diceRoll == 4) {
+      } else if (diceRoll == 4) {
         image(dice4, 675, 50);
-      } else if(diceRoll == 5) {
+      } else if (diceRoll == 5) {
         image(dice5, 675, 50);
-      } else if(diceRoll == 6) {
+      } else if (diceRoll == 6) {
         image(dice6, 675, 50);
       }
     }

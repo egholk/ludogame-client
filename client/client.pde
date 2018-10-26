@@ -11,16 +11,16 @@ PImage dice4;
 PImage dice5;
 PImage dice6;
 
-//int dimensions = 30;
 dice dice;
 int diceRoll;
+boolean isDiceRolled;
 
 boolean start;
 int fadeValue = 255;
 boolean fade = false;
 
-String diceNumber;
-int players = 2;
+int playerNumber = 4;
+int players = 4;
 
 game_piece gp11, gp12, gp13, gp14;
 game_piece gp21, gp22, gp23, gp24;
@@ -89,6 +89,8 @@ void draw() {
   if (!start) {
     fill(255, 255, 255, fadeValue);
     rect(0, 0, width, height);
+    fill(0, 0, 0, fadeValue);
+    text("LUDO GAME", 300, 275);
 
     if (mouseX < width) {
       if (mousePressed) {
@@ -102,6 +104,8 @@ void draw() {
         start = true;
         fade = false;
         fadeValue = 255;
+        fill(255);
+        rect(0, 0, width, height);
       }
     }
   } else {
@@ -147,9 +151,7 @@ void mousePressed() {
   if (mouseButton == LEFT && start == true) {
     if (mouseX > 600 && mouseX < 850 && mouseY > 200 && mouseY < 320) {
       diceRoll = dice.roll();
-      diceNumber = str(diceRoll);
-
-      //gp1X += diceRoll;
+      isDiceRolled = true;
 
       if (diceRoll == 1) {
         image(dice1, 675, 50);
@@ -164,6 +166,86 @@ void mousePressed() {
       } else if (diceRoll == 6) {
         image(dice6, 675, 50);
       }
+    }
+  }
+
+  if (mouseButton == LEFT && isDiceRolled == true && playerNumber == 1) {
+    if (mouseX > gp11X-15 && mouseX < gp11X+15 && mouseY > gp11Y-15 && mouseY < gp11Y+15) {
+      gp11X += diceRoll*10;
+      gp11Y += diceRoll*10;
+      isDiceRolled = false;
+    } else if (mouseX > gp12X-15 && mouseX < gp12X+15 && mouseY > gp12Y-15 && mouseY < gp12Y+15) {
+      gp12X += diceRoll*10;
+      gp12Y += diceRoll*10;
+      isDiceRolled = false;
+    } else if (mouseX > gp13X-15 && mouseX < gp13X+15 && mouseY > gp13Y-15 && mouseY < gp13Y+15) {
+      gp13X += diceRoll*10;
+      gp13Y += diceRoll*10;
+      isDiceRolled = false;
+    } else if (mouseX > gp14X-15 && mouseX < gp14X+15 && mouseY > gp14Y-15 && mouseY < gp14Y+15) {
+      gp14X += diceRoll*10;
+      gp14Y += diceRoll*10;
+      isDiceRolled = false;
+    }
+  }
+
+  if (mouseButton == LEFT && isDiceRolled == true && playerNumber == 2) {
+    if (mouseX > gp21X-15 && mouseX < gp21X+15 && mouseY > gp21Y-15 && mouseY < gp21Y+15) {
+      gp21X += diceRoll*10;
+      gp21Y += diceRoll*10;
+      isDiceRolled = false;
+    } else if (mouseX > gp22X-15 && mouseX < gp22X+15 && mouseY > gp22Y-15 && mouseY < gp22Y+15) {
+      gp22X += diceRoll*10;
+      gp22Y += diceRoll*10;
+      isDiceRolled = false;
+    } else if (mouseX > gp23X-15 && mouseX < gp23X+15 && mouseY > gp23Y-15 && mouseY < gp23Y+15) {
+      gp23X += diceRoll*10;
+      gp23Y += diceRoll*10;
+      isDiceRolled = false;
+    } else if (mouseX > gp24X-15 && mouseX < gp24X+15 && mouseY > gp24Y-15 && mouseY < gp24Y+15) {
+      gp24X += diceRoll*10;
+      gp24Y += diceRoll*10;
+      isDiceRolled = false;
+    }
+  }
+
+  if (mouseButton == LEFT && isDiceRolled == true && playerNumber == 3) {
+    if (mouseX > gp31X-15 && mouseX < gp31X+15 && mouseY > gp31Y-15 && mouseY < gp31Y+15) {
+      gp31X += diceRoll*10;
+      gp31Y += diceRoll*10;
+      isDiceRolled = false;
+    } else if (mouseX > gp32X-15 && mouseX < gp32X+15 && mouseY > gp32Y-15 && mouseY < gp32Y+15) {
+      gp32X += diceRoll*10;
+      gp32Y += diceRoll*10;
+      isDiceRolled = false;
+    } else if (mouseX > gp33X-15 && mouseX < gp33X+15 && mouseY > gp33Y-15 && mouseY < gp33Y+15) {
+      gp33X += diceRoll*10;
+      gp33Y += diceRoll*10;
+      isDiceRolled = false;
+    } else if (mouseX > gp34X-15 && mouseX < gp34X+15 && mouseY > gp34Y-15 && mouseY < gp34Y+15) {
+      gp34X += diceRoll*10;
+      gp34Y += diceRoll*10;
+      isDiceRolled = false;
+    }
+  }
+
+  if (mouseButton == LEFT && isDiceRolled == true && playerNumber == 4) {
+    if (mouseX > gp41X-15 && mouseX < gp41X+15 && mouseY > gp41Y-15 && mouseY < gp41Y+15) {
+      gp41X += diceRoll*10;
+      gp41Y += diceRoll*10;
+      isDiceRolled = false;
+    } else if (mouseX > gp42X-15 && mouseX < gp42X+15 && mouseY > gp42Y-15 && mouseY < gp42Y+15) {
+      gp42X += diceRoll*10;
+      gp42Y += diceRoll*10;
+      isDiceRolled = false;
+    } else if (mouseX > gp43X-15 && mouseX < gp43X+15 && mouseY > gp43Y-15 && mouseY < gp43Y+15) {
+      gp43X += diceRoll*10;
+      gp43Y += diceRoll*10;
+      isDiceRolled = false;
+    } else if (mouseX > gp44X-15 && mouseX < gp44X+15 && mouseY > gp44Y-15 && mouseY < gp44Y+15) {
+      gp44X += diceRoll*10;
+      gp44Y += diceRoll*10;
+      isDiceRolled = false;
     }
   }
 }

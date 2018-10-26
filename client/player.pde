@@ -1,9 +1,0 @@
-class player {
-  
-  player () {
-    
-  }
-
-
-
-}

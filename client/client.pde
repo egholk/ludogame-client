@@ -15,12 +15,12 @@ dice dice;
 int diceRoll;
 boolean isDiceRolled;
 
+lobby lobby;
 boolean start;
-int fadeValue = 255;
-boolean fade = false;
+boolean newGame;
 
-int playerNumber = 4;
-int players = 4;
+int playerNumber = 1;
+int players = 2;
 
 game_piece gp11, gp12, gp13, gp14;
 game_piece gp21, gp22, gp23, gp24;
@@ -59,8 +59,10 @@ void setup() {
   size(1000, 600);
 
   background(255);
+
+  lobby = new lobby();
+
   dice = new dice();
-  textSize(width/20);
 
   gp11 = new game_piece();
   gp12 = new game_piece();
@@ -78,36 +80,18 @@ void setup() {
   gp42 = new game_piece();
   gp43 = new game_piece();
   gp44 = new game_piece();
-  //myClient = new Client(this, "127.0.0.1", 8000);
+  Player = new Client(this, "127.0.0.1", 5255);
 }
 
 void draw() {
   /*if (Player.available() > 0) { 
    dataIn = Player.read(); 
    } */
-
-  if (!start) {
-    fill(255, 255, 255, fadeValue);
-    rect(0, 0, width, height);
-    fill(0, 0, 0, fadeValue);
-    text("LUDO GAME", 300, 275);
-
-    if (mouseX < width) {
-      if (mousePressed) {
-        fade = true;
-      }
-    }
-
-    if (fade) {
-      fadeValue = 0;
-      if (fadeValue <= 0) {
-        start = true;
-        fade = false;
-        fadeValue = 255;
-        fill(255);
-        rect(0, 0, width, height);
-      }
-    }
+  println(mouseX, mouseY);
+  if (!newGame && !start) {
+    lobby.startScreen();
+  } else if (newGame && !start) {
+    lobby.makeLobby();
   } else {
     image(board, 0, 0);
 
@@ -143,6 +127,7 @@ void draw() {
     fill(255);
     rect(600, 200, 250, 120);
     fill(0);
+    textSize(width/20);
     text("Roll dice", 620, 275);
   }
 }

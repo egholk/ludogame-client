@@ -5,7 +5,10 @@ class lobby {
   int fadeValue = 255;
   boolean fade = false;
   int rect = 700;
-  String message = "";
+  int connection = 1;
+  boolean connected;
+  boolean playerLock;
+  int playerNumber = 0;
 
   lobby() {
   }
@@ -42,7 +45,7 @@ class lobby {
     }
   }
 
-  void makeLobby () {
+  void makeLobby (int players) {
     fill(255, 255, 255, fadeValue);
     rect(0, 0, width, height);
     fill(0, 0, 0, fadeValue);
@@ -55,17 +58,33 @@ class lobby {
     textSize(width/25);
     fill(0, 0, 0, fadeValue);
     text("CONNECT", 725, 275);
+    textSize(width/40);
+    text("PLAYERS CONNECTED TO THE SERVER: ", 120, 275);
 
-    if (mouseX > 700 && mouseX < 950 && mouseY > 200 && mouseY < 320) {
+    if (mouseX > 700 && mouseX < 950 && mouseY > 200 && mouseY < 320 && !connected && !playerLock) {
       if (mousePressed) {
-        message = Player.readString();
+        if (players == 0) {
+          players = 1;
+          playerNumber = 1;
+        } else if (players == 1) {
+          players = 2;
+          playerNumber = 2;
+        } else if (players == 2) {
+          players = 3;
+          playerNumber = 3;
+        } else if (players == 3) {
+          players = 4;
+          playerNumber = 4;
+        }
+        
+        player.write(players);
+        
+        connected = true;
+        playerLock = true;
       }
     }
-    
-    textSize(width/30);
-    text(message, 100, 275);
 
-    if (players > 1) {
+    if (players > 2) {
       fill(255, 255, 255, fadeValue);
       rect(700, 375, 250, 120);
       textSize(width/30);
@@ -88,5 +107,9 @@ class lobby {
         rect(0, 0, width, height);
       }
     }
+  }
+  
+  int getPlayerNumber () {
+    return playerNumber;
   }
 }

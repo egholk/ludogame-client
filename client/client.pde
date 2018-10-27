@@ -1,31 +1,26 @@
 import processing.net.*; 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
-Client Player;
-int dataIn; 
-
-PImage board;
-PImage dice1;
-PImage dice2;
-PImage dice3;
-PImage dice4;
-PImage dice5;
-PImage dice6;
-
-dice dice;
-int diceRoll;
-boolean isDiceRolled;
-
+Client player;
 lobby lobby;
-boolean start;
-boolean newGame;
-
-int playerNumber = 1;
-int players = 2;
+InetAddress localhost;
+dice dice;
 
 game_piece gp11, gp12, gp13, gp14;
 game_piece gp21, gp22, gp23, gp24;
 game_piece gp31, gp32, gp33, gp34;
 game_piece gp41, gp42, gp43, gp44;
+
+int dataIn; 
+int players = 0;
+int playerNumber = 0;
+
+boolean newGame;
+boolean start;
+
+int timer = 0;
+boolean timerBoolean;
 
 int gp11X = 93, gp11Y = 130;
 int gp12X = 130, gp12Y = 93;
@@ -47,6 +42,17 @@ int gp42X = 469, gp42Y = 430;
 int gp43X = 507, gp43Y = 468;
 int gp44X = 469, gp44Y = 506;
 
+int diceRoll;
+boolean isDiceRolled;
+
+PImage board;
+PImage dice1;
+PImage dice2;
+PImage dice3;
+PImage dice4;
+PImage dice5;
+PImage dice6;
+
 void setup() {
   board = loadImage("LudoBoard.png");
   dice1 = loadImage("dice1.JPG");
@@ -57,7 +63,6 @@ void setup() {
   dice6 = loadImage("dice6.JPG");
 
   size(1000, 600);
-
   background(255);
 
   lobby = new lobby();
@@ -80,18 +85,30 @@ void setup() {
   gp42 = new game_piece();
   gp43 = new game_piece();
   gp44 = new game_piece();
-  Player = new Client(this, "127.0.0.1", 5255);
+
+  try {
+    localhost = InetAddress.getLocalHost();
+    //println(localhost.getHostAddress());
+  } 
+  catch (UnknownHostException e) {
+  }
+  
+  // If client is run from another computer, then write the server's IP address instead of localhost.getHostAddress(), e.g. "192.168.0.7"
+  player = new Client(this, localhost.getHostAddress(), 5255);
 }
 
 void draw() {
-  /*if (Player.available() > 0) { 
-   dataIn = Player.read(); 
-   } */
-  println(mouseX, mouseY);
   if (!newGame && !start) {
     lobby.startScreen();
   } else if (newGame && !start) {
-    lobby.makeLobby();
+    lobby.makeLobby(players);
+    
+    players = player.read();
+    
+    playerNumber = lobby.getPlayerNumber();
+    
+    textSize(width/10);
+    text(str(players), 325, 425);
   } else {
     image(board, 0, 0);
 

@@ -30,11 +30,12 @@ class lobby {
     text("NEW GAME", 395, 315); //375 250 625 350
     text("QUIT GAME", 390, 465); //375 400 625 500
     rectMode(CORNER);
+    //sets up the lobby screen
 
     if (mouseX > 375 && mouseX < 625 && mouseY > 400 && mouseY < 500) {
       if (mousePressed) {
         exit();
-      }
+      } //if quit game is pressed it quits the game
     }
 
     if (mouseX > 375 && mouseX < 625 && mouseY > 250 && mouseY < 350) {
@@ -42,7 +43,7 @@ class lobby {
         newGame = true;
         fill(255);
         rect(0, 0, width, height);
-      }
+      } //starts the game 
     }
   }
 
@@ -61,20 +62,21 @@ class lobby {
     text("CONNECT", 725, 275);
     textSize(width/40);
     text("PLAYERS CONNECTED TO THE SERVER: ", 120, 275);
+    
+    //Also set up the lobby
 
     String value = Player.readString();
     if (dataIn.length() == 1) { 
-   //   playerNumber = Integer.parseInt(dataIn);
       players = Integer.parseInt(dataIn);
-    }
+    } //defines players as the converted dataIn
 
     if (mouseX > 700 && mouseX < 950 && mouseY > 200 && mouseY < 320 && !connected && !playerLock) {
       if (mousePressed) {
 
           playerNumber = players;
 
-      Player.write(players + "");
-
+      Player.write(players + ""); //sends the amount of players + a string to the server
+      //the string is to make it not convert the number into a string 
       connected = true;
       playerLock = true;
     }
@@ -90,7 +92,7 @@ class lobby {
     if (mouseX > 700 && mouseX < 950 && mouseY > 375 && mouseY < 500) {
       if (mousePressed) {
         fade = true;
-      }
+      } //If there is more than one player, the start button is visable 
     }
   }
 

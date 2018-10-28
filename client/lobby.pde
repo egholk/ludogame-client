@@ -9,6 +9,7 @@ class lobby {
   boolean connected;
   boolean playerLock;
   int playerNumber = 0;
+  int player = 0;
 
   lobby() {
   }
@@ -45,7 +46,7 @@ class lobby {
     }
   }
 
-  void makeLobby (int players) {
+  void makeLobby (int playerss) {
     fill(255, 255, 255, fadeValue);
     rect(0, 0, width, height);
     fill(0, 0, 0, fadeValue);
@@ -61,55 +62,54 @@ class lobby {
     textSize(width/40);
     text("PLAYERS CONNECTED TO THE SERVER: ", 120, 275);
 
+    String value = Player.readString();
+    if (dataIn.length() == 1) { 
+   //   playerNumber = Integer.parseInt(dataIn);
+      players = Integer.parseInt(dataIn);
+    }
+
     if (mouseX > 700 && mouseX < 950 && mouseY > 200 && mouseY < 320 && !connected && !playerLock) {
       if (mousePressed) {
-        if (players == 0) {
-          players = 1;
-          playerNumber = 1;
-        } else if (players == 1) {
-          players = 2;
-          playerNumber = 2;
-        } else if (players == 2) {
-          players = 3;
-          playerNumber = 3;
-        } else if (players == 3) {
-          players = 4;
-          playerNumber = 4;
-        }
-        
-        player.write(players);
-        
-        connected = true;
-        playerLock = true;
-      }
-    }
 
-    if (players > 0) {
-      fill(255, 255, 255, fadeValue);
-      rect(700, 375, 250, 120);
-      textSize(width/30);
-      fill(0, 0, 0, fadeValue);
-      text("START GAME", 720, 450);
-      if (mouseX > 700 && mouseX < 950 && mouseY > 375 && mouseY < 500) {
-        if (mousePressed) {
-          fade = true;
-        }
-      }
-    }
+          playerNumber = players;
 
-    if (fade) {
-      fadeValue = 0;
-      if (fadeValue <= 0) {
-        start = true;
-        fade = false;
-        fadeValue = 255;
-        fill(255);
-        rect(0, 0, width, height);
-      }
+      Player.write(players + "");
+
+      connected = true;
+      playerLock = true;
     }
-  }
+    }
   
-  int getPlayerNumber () {
-    return playerNumber;
+
+  if (players > 1) {
+    fill(255, 255, 255, fadeValue);
+    rect(700, 375, 250, 120);
+    textSize(width/30);
+    fill(0, 0, 0, fadeValue);
+    text("START GAME", 720, 450);
+    if (mouseX > 700 && mouseX < 950 && mouseY > 375 && mouseY < 500) {
+      if (mousePressed) {
+        fade = true;
+      }
+    }
   }
+
+  if (fade) {
+    fadeValue = 0;
+    if (fadeValue <= 0) {
+      start = true;
+      fade = false;
+      fadeValue = 255;
+      fill(255);
+      rect(0, 0, width, height);
+    }
+  }
+}
+
+int getPlayerNumber () {
+  return playerNumber;
+}
+int getPlayerAmount () {
+  return players;
+}
 }

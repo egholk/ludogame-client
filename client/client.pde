@@ -99,6 +99,85 @@ void setup() {
 }
 
 void draw() {
+
+//Checks if clients are available and locates which game piece is playing
+if (Player.available() > 0) { 
+     dataIn = Player.readString(); 
+     println(dataIn);
+
+    if(dataIn.indexOf("gp11") >= 0){
+      gp11X = Integer.parseInt(dataIn.split(",")[1]);
+      gp11Y = Integer.parseInt(dataIn.split(",")[2]);
+    } 
+    else if(dataIn.indexOf("gp12") >= 0){
+      gp12X = Integer.parseInt(dataIn.split(",")[1]);
+      gp12Y = Integer.parseInt(dataIn.split(",")[2]);
+    } 
+    else if(dataIn.indexOf("gp13") >= 0){
+      gp13X = Integer.parseInt(dataIn.split(",")[1]);
+      gp13Y = Integer.parseInt(dataIn.split(",")[2]);
+    } 
+    else if(dataIn.indexOf("gp14") >= 0){
+      gp14X = Integer.parseInt(dataIn.split(",")[1]);
+      gp14Y = Integer.parseInt(dataIn.split(",")[2]);
+    } 
+    
+    //Yellow
+    else if(dataIn.indexOf("gp21") >= 0){
+      gp21X = Integer.parseInt(dataIn.split(",")[1]);
+      gp21Y = Integer.parseInt(dataIn.split(",")[2]);
+    } 
+    else if(dataIn.indexOf("gp22") >= 0){
+      gp22X = Integer.parseInt(dataIn.split(",")[1]);
+      gp22Y = Integer.parseInt(dataIn.split(",")[2]);
+    } 
+    else if(dataIn.indexOf("gp23") >= 0){
+      gp23X = Integer.parseInt(dataIn.split(",")[1]);
+      gp23Y = Integer.parseInt(dataIn.split(",")[2]);
+    } 
+    else if(dataIn.indexOf("gp24") >= 0){
+      gp24X = Integer.parseInt(dataIn.split(",")[1]);
+      gp24Y = Integer.parseInt(dataIn.split(",")[2]);
+    } 
+    
+    //Blue
+    else if(dataIn.indexOf("gp31") >= 0){
+      gp31X = Integer.parseInt(dataIn.split(",")[1]);
+      gp31Y = Integer.parseInt(dataIn.split(",")[2]);
+    } 
+    else if(dataIn.indexOf("gp32") >= 0){
+      gp32X = Integer.parseInt(dataIn.split(",")[1]);
+      gp32Y = Integer.parseInt(dataIn.split(",")[2]);
+    } 
+    else if(dataIn.indexOf("gp33") >= 0){
+      gp33X = Integer.parseInt(dataIn.split(",")[1]);
+      gp33Y = Integer.parseInt(dataIn.split(",")[2]);
+    } 
+    else if(dataIn.indexOf("gp34") >= 0){
+      gp34X = Integer.parseInt(dataIn.split(",")[1]);
+      gp34Y = Integer.parseInt(dataIn.split(",")[2]);
+    } 
+    
+    //Red
+    else if(dataIn.indexOf("gp41") >= 0){
+      gp41X = Integer.parseInt(dataIn.split(",")[1]);
+      gp41Y = Integer.parseInt(dataIn.split(",")[2]);
+    } 
+    else if(dataIn.indexOf("gp42") >= 0){
+      gp42X = Integer.parseInt(dataIn.split(",")[1]);
+      gp42Y = Integer.parseInt(dataIn.split(",")[2]);
+    } 
+    else if(dataIn.indexOf("gp43") >= 0){
+      gp43X = Integer.parseInt(dataIn.split(",")[1]);
+      gp43Y = Integer.parseInt(dataIn.split(",")[2]);
+    } 
+    else if(dataIn.indexOf("gp44") >= 0){
+      gp44X = Integer.parseInt(dataIn.split(",")[1]);
+      gp44Y = Integer.parseInt(dataIn.split(",")[2]);
+    } 
+     
+   } 
+
   if (!newGame && !start) {
     lobby.startScreen();
   } else if (newGame && !start) {
@@ -154,6 +233,7 @@ void mousePressed() {
   if (mouseButton == LEFT && start == true) {
     if (mouseX > 600 && mouseX < 850 && mouseY > 200 && mouseY < 320) {
       diceRoll = dice.roll();
+      Player.write(diceRoll+""); //sends the data from the diceRoll plus an empty string (so it doesn't change it to a string)
       isDiceRolled = true;
 
       player.write(diceRoll);
@@ -176,81 +256,67 @@ void mousePressed() {
 
   if (mouseButton == LEFT && isDiceRolled && playerNumber == 1) {
     if (mouseX > gp11X-15 && mouseX < gp11X+15 && mouseY > gp11Y-15 && mouseY < gp11Y+15) {
-      gp11X += diceRoll*10;
-      gp11Y += diceRoll*10;
+      Player.write(11+"");
       isDiceRolled = false;
     } else if (mouseX > gp12X-15 && mouseX < gp12X+15 && mouseY > gp12Y-15 && mouseY < gp12Y+15) {
-      gp12X += diceRoll*10;
-      gp12Y += diceRoll*10;
+      Player.write(12+"");
       isDiceRolled = false;
     } else if (mouseX > gp13X-15 && mouseX < gp13X+15 && mouseY > gp13Y-15 && mouseY < gp13Y+15) {
-      gp13X += diceRoll*10;
-      gp13Y += diceRoll*10;
+      Player.write(13+"");
       isDiceRolled = false;
     } else if (mouseX > gp14X-15 && mouseX < gp14X+15 && mouseY > gp14Y-15 && mouseY < gp14Y+15) {
-      gp14X += diceRoll*10;
-      gp14Y += diceRoll*10;
+      Player.write(14+"");
       isDiceRolled = false;
     }
   }
 
+
   if (mouseButton == LEFT && isDiceRolled == true && playerNumber == 2) {
     if (mouseX > gp21X-15 && mouseX < gp21X+15 && mouseY > gp21Y-15 && mouseY < gp21Y+15) {
-      gp21X += diceRoll*10;
-      gp21Y += diceRoll*10;
+      Player.write(21+"");
       isDiceRolled = false;
     } else if (mouseX > gp22X-15 && mouseX < gp22X+15 && mouseY > gp22Y-15 && mouseY < gp22Y+15) {
-      gp22X += diceRoll*10;
-      gp22Y += diceRoll*10;
+      Player.write(22+"");
       isDiceRolled = false;
     } else if (mouseX > gp23X-15 && mouseX < gp23X+15 && mouseY > gp23Y-15 && mouseY < gp23Y+15) {
-      gp23X += diceRoll*10;
-      gp23Y += diceRoll*10;
+      Player.write(23+"");
       isDiceRolled = false;
     } else if (mouseX > gp24X-15 && mouseX < gp24X+15 && mouseY > gp24Y-15 && mouseY < gp24Y+15) {
-      gp24X += diceRoll*10;
-      gp24Y += diceRoll*10;
+      Player.write(24+"");
       isDiceRolled = false;
     }
   }
 
   if (mouseButton == LEFT && isDiceRolled == true && playerNumber == 3) {
     if (mouseX > gp31X-15 && mouseX < gp31X+15 && mouseY > gp31Y-15 && mouseY < gp31Y+15) {
-      gp31X += diceRoll*10;
-      gp31Y += diceRoll*10;
+      Player.write(31+"");
       isDiceRolled = false;
     } else if (mouseX > gp32X-15 && mouseX < gp32X+15 && mouseY > gp32Y-15 && mouseY < gp32Y+15) {
-      gp32X += diceRoll*10;
-      gp32Y += diceRoll*10;
+      Player.write(32+"");
       isDiceRolled = false;
     } else if (mouseX > gp33X-15 && mouseX < gp33X+15 && mouseY > gp33Y-15 && mouseY < gp33Y+15) {
-      gp33X += diceRoll*10;
-      gp33Y += diceRoll*10;
+      Player.write(33+"");
       isDiceRolled = false;
     } else if (mouseX > gp34X-15 && mouseX < gp34X+15 && mouseY > gp34Y-15 && mouseY < gp34Y+15) {
-      gp34X += diceRoll*10;
-      gp34Y += diceRoll*10;
+      Player.write(34+"");
       isDiceRolled = false;
     }
   }
 
   if (mouseButton == LEFT && isDiceRolled == true && playerNumber == 4) {
     if (mouseX > gp41X-15 && mouseX < gp41X+15 && mouseY > gp41Y-15 && mouseY < gp41Y+15) {
-      gp41X += diceRoll*10;
-      gp41Y += diceRoll*10;
+      Player.write(41+"");
       isDiceRolled = false;
     } else if (mouseX > gp42X-15 && mouseX < gp42X+15 && mouseY > gp42Y-15 && mouseY < gp42Y+15) {
-      gp42X += diceRoll*10;
-      gp42Y += diceRoll*10;
+      Player.write(42+"");
       isDiceRolled = false;
     } else if (mouseX > gp43X-15 && mouseX < gp43X+15 && mouseY > gp43Y-15 && mouseY < gp43Y+15) {
-      gp43X += diceRoll*10;
-      gp43Y += diceRoll*10;
+      Player.write(43+"");
       isDiceRolled = false;
     } else if (mouseX > gp44X-15 && mouseX < gp44X+15 && mouseY > gp44Y-15 && mouseY < gp44Y+15) {
-      gp44X += diceRoll*10;
-      gp44Y += diceRoll*10;
+      Player.write(44+"");
       isDiceRolled = false;
     }
   }
+  
 }

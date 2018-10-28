@@ -7,7 +7,6 @@ class dice {
 
   int roll() {
     randomNumber = int(random(1, 7));
-    println(randomNumber);
     return randomNumber;
   }
 }

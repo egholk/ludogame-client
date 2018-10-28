@@ -12,9 +12,9 @@ game_piece gp21, gp22, gp23, gp24;
 game_piece gp31, gp32, gp33, gp34;
 game_piece gp41, gp42, gp43, gp44;
 
-int dataIn; 
 int players = 0;
 int playerNumber = 0;
+int hey = 0;
 
 boolean newGame;
 boolean start;
@@ -44,6 +44,7 @@ int gp44X = 469, gp44Y = 506;
 
 int diceRoll;
 boolean isDiceRolled;
+boolean green1;
 
 PImage board;
 PImage dice1;
@@ -92,7 +93,7 @@ void setup() {
   } 
   catch (UnknownHostException e) {
   }
-  
+
   // If client is run from another computer, then write the server's IP address instead of localhost.getHostAddress(), e.g. "192.168.0.7"
   player = new Client(this, localhost.getHostAddress(), 5255);
 }
@@ -102,11 +103,11 @@ void draw() {
     lobby.startScreen();
   } else if (newGame && !start) {
     lobby.makeLobby(players);
-    
+
     players = player.read();
-    
+
     playerNumber = lobby.getPlayerNumber();
-    
+
     textSize(width/10);
     text(str(players), 325, 425);
   } else {
@@ -155,6 +156,8 @@ void mousePressed() {
       diceRoll = dice.roll();
       isDiceRolled = true;
 
+      player.write(diceRoll);
+
       if (diceRoll == 1) {
         image(dice1, 675, 50);
       } else if (diceRoll == 2) {
@@ -171,7 +174,7 @@ void mousePressed() {
     }
   }
 
-  if (mouseButton == LEFT && isDiceRolled == true && playerNumber == 1) {
+  if (mouseButton == LEFT && isDiceRolled && playerNumber == 1) {
     if (mouseX > gp11X-15 && mouseX < gp11X+15 && mouseY > gp11Y-15 && mouseY < gp11Y+15) {
       gp11X += diceRoll*10;
       gp11Y += diceRoll*10;

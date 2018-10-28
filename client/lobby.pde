@@ -84,7 +84,7 @@ class lobby {
       }
     }
 
-    if (players > 2) {
+    if (players > 0) {
       fill(255, 255, 255, fadeValue);
       rect(700, 375, 250, 120);
       textSize(width/30);

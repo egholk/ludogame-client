@@ -2,25 +2,36 @@ import processing.net.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-Client player;
+Client Player;
+String dataIn;
 lobby lobby;
 InetAddress localhost;
+
+PImage board;
+PImage dice1;
+PImage dice2;
+PImage dice3;
+PImage dice4;
+PImage dice5;
+PImage dice6;
+
 dice dice;
+int diceRoll;
+boolean isDiceRolled;
+
+boolean start;
+boolean newGame;
+
+int playerNumber = 0;
+int players = 0;
+
+int timer = 0;
+boolean timerBoolean;
 
 game_piece gp11, gp12, gp13, gp14;
 game_piece gp21, gp22, gp23, gp24;
 game_piece gp31, gp32, gp33, gp34;
 game_piece gp41, gp42, gp43, gp44;
-
-int players = 0;
-int playerNumber = 0;
-int hey = 0;
-
-boolean newGame;
-boolean start;
-
-int timer = 0;
-boolean timerBoolean;
 
 int gp11X = 93, gp11Y = 130;
 int gp12X = 130, gp12Y = 93;
@@ -42,17 +53,6 @@ int gp42X = 469, gp42Y = 430;
 int gp43X = 507, gp43Y = 468;
 int gp44X = 469, gp44Y = 506;
 
-int diceRoll;
-boolean isDiceRolled;
-boolean green1;
-
-PImage board;
-PImage dice1;
-PImage dice2;
-PImage dice3;
-PImage dice4;
-PImage dice5;
-PImage dice6;
 
 void setup() {
   board = loadImage("LudoBoard.png");
@@ -64,11 +64,26 @@ void setup() {
   dice6 = loadImage("dice6.JPG");
 
   size(1000, 600);
+
   background(255);
-
-  lobby = new lobby();
-
+  
+ lobby = new lobby();
+  
   dice = new dice();
+  
+  //textSize(width/20);
+  
+    try {
+    localhost = InetAddress.getLocalHost();
+    //println(localhost.getHostAddress());
+  } 
+  catch (UnknownHostException e) {
+  }
+  
+  
+   //If client is run from another computer, then write the server's IP address instead of localhost.getHostAddress(), e.g. "192.168.0.7"
+  Player = new Client(this, localhost.getHostAddress(), 5255);
+
 
   gp11 = new game_piece();
   gp12 = new game_piece();
@@ -86,24 +101,20 @@ void setup() {
   gp42 = new game_piece();
   gp43 = new game_piece();
   gp44 = new game_piece();
+  
+  //player = new Client(this, "127.0.0.1", 8000);
 
-  try {
-    localhost = InetAddress.getLocalHost();
-    //println(localhost.getHostAddress());
-  } 
-  catch (UnknownHostException e) {
-  }
-
-  // If client is run from another computer, then write the server's IP address instead of localhost.getHostAddress(), e.g. "192.168.0.7"
-  player = new Client(this, localhost.getHostAddress(), 5255);
 }
 
 void draw() {
-
-//Checks if clients are available and locates which game piece is playing
-if (Player.available() > 0) { 
+  
+//  players = lobby.playerAmount;
+  
+  if (Player.available() > 0) { 
      dataIn = Player.readString(); 
-     println(dataIn);
+   //  println(dataIn);
+     
+     
 
     if(dataIn.indexOf("gp11") >= 0){
       gp11X = Integer.parseInt(dataIn.split(",")[1]);
@@ -175,21 +186,20 @@ if (Player.available() > 0) {
       gp44X = Integer.parseInt(dataIn.split(",")[1]);
       gp44Y = Integer.parseInt(dataIn.split(",")[2]);
     } 
-     
-   } 
-
+   }  
+   
   if (!newGame && !start) {
     lobby.startScreen();
   } else if (newGame && !start) {
+    
     lobby.makeLobby(players);
-
-    players = player.read();
-
+    
     playerNumber = lobby.getPlayerNumber();
-
+    
     textSize(width/10);
     text(str(players), 325, 425);
   } else {
+    
     image(board, 0, 0);
 
     gp11.place(gp11X, gp11Y, 1);
@@ -197,10 +207,13 @@ if (Player.available() > 0) {
     gp13.place(gp13X, gp13Y, 1);
     gp14.place(gp14X, gp14Y, 1);
 
+
+
     gp21.place(gp21X, gp21Y, 2);
     gp22.place(gp22X, gp22Y, 2);
     gp23.place(gp23X, gp23Y, 2);
     gp24.place(gp24X, gp24Y, 2);
+
 
     if (players == 3) {
       gp31.place(gp31X, gp31Y, players);
@@ -227,16 +240,17 @@ if (Player.available() > 0) {
     textSize(width/20);
     text("Roll dice", 620, 275);
   }
+  
 }
 
 void mousePressed() {
   if (mouseButton == LEFT && start == true) {
     if (mouseX > 600 && mouseX < 850 && mouseY > 200 && mouseY < 320) {
       diceRoll = dice.roll();
-      Player.write(diceRoll+""); //sends the data from the diceRoll plus an empty string (so it doesn't change it to a string)
-      isDiceRolled = true;
+      
+      Player.write(diceRoll+"");
 
-      player.write(diceRoll);
+      isDiceRolled = true;
 
       if (diceRoll == 1) {
         image(dice1, 675, 50);
@@ -253,9 +267,12 @@ void mousePressed() {
       }
     }
   }
-
-  if (mouseButton == LEFT && isDiceRolled && playerNumber == 1) {
+  println(playerNumber);
+  
+  if (mouseButton == LEFT && isDiceRolled == true && playerNumber == 1) {
+ 
     if (mouseX > gp11X-15 && mouseX < gp11X+15 && mouseY > gp11Y-15 && mouseY < gp11Y+15) {
+      
       Player.write(11+"");
       isDiceRolled = false;
     } else if (mouseX > gp12X-15 && mouseX < gp12X+15 && mouseY > gp12Y-15 && mouseY < gp12Y+15) {
@@ -317,6 +334,6 @@ void mousePressed() {
       Player.write(44+"");
       isDiceRolled = false;
     }
-  }
+  } 
   
 }

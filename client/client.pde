@@ -52,7 +52,7 @@ int gp41X = 432, gp41Y = 468;
 int gp42X = 469, gp42Y = 430;
 int gp43X = 507, gp43Y = 468;
 int gp44X = 469, gp44Y = 506;
-
+//Just created var for everything we need
 
 void setup() {
   board = loadImage("LudoBoard.png");
@@ -73,6 +73,7 @@ void setup() {
   
   //textSize(width/20);
   
+  //Connects to the server
     try {
     localhost = InetAddress.getLocalHost();
     //println(localhost.getHostAddress());
@@ -84,6 +85,7 @@ void setup() {
    //If client is run from another computer, then write the server's IP address instead of localhost.getHostAddress(), e.g. "192.168.0.7"
   Player = new Client(this, localhost.getHostAddress(), 5255);
 
+//creates all the pieces needed
 
   gp11 = new game_piece();
   gp12 = new game_piece();
@@ -102,19 +104,15 @@ void setup() {
   gp43 = new game_piece();
   gp44 = new game_piece();
   
-  //player = new Client(this, "127.0.0.1", 8000);
 
 }
 
 void draw() {
   
-//  players = lobby.playerAmount;
+  //Checks which gamepiece is in use/needed
   
   if (Player.available() > 0) { 
      dataIn = Player.readString(); 
-   //  println(dataIn);
-     
-     
 
     if(dataIn.indexOf("gp11") >= 0){
       gp11X = Integer.parseInt(dataIn.split(",")[1]);
@@ -188,6 +186,7 @@ void draw() {
     } 
    }  
    
+   
   if (!newGame && !start) {
     lobby.startScreen();
   } else if (newGame && !start) {
@@ -213,14 +212,14 @@ void draw() {
     gp22.place(gp22X, gp22Y, 2);
     gp23.place(gp23X, gp23Y, 2);
     gp24.place(gp24X, gp24Y, 2);
-
+//If there is only 2 players, show only the 2 players' game pieces
 
     if (players == 3) {
       gp31.place(gp31X, gp31Y, players);
       gp32.place(gp32X, gp32Y, players);
       gp33.place(gp33X, gp33Y, players);
       gp34.place(gp34X, gp34Y, players);
-    }
+    }  //If 3 also show the thirds' game pieces
 
     if (players == 4) {
       gp31.place(gp31X, gp31Y, players-1);
@@ -232,7 +231,7 @@ void draw() {
       gp42.place(gp42X, gp42Y, players);
       gp43.place(gp43X, gp43Y, players);
       gp44.place(gp44X, gp44Y, players);
-    }
+    }  //and if 4 show both the thirds' and fourth's game pieces
 
     fill(255);
     rect(600, 200, 250, 120);
@@ -264,10 +263,10 @@ void mousePressed() {
         image(dice5, 675, 50);
       } else if (diceRoll == 6) {
         image(dice6, 675, 50);
-      }
-    }
-  }
-  println(playerNumber);
+      } 
+    } 
+  } //If mouse is pressed on the dice, it will show the random number with a picture of the number of dots.
+  //println(playerNumber);
   
   if (mouseButton == LEFT && isDiceRolled == true && playerNumber == 1) {
  
@@ -284,8 +283,8 @@ void mousePressed() {
     } else if (mouseX > gp14X-15 && mouseX < gp14X+15 && mouseY > gp14Y-15 && mouseY < gp14Y+15) {
       Player.write(14+"");
       isDiceRolled = false;
-    }
-  }
+    } 
+  } 
 
 
   if (mouseButton == LEFT && isDiceRolled == true && playerNumber == 2) {
@@ -334,6 +333,7 @@ void mousePressed() {
       Player.write(44+"");
       isDiceRolled = false;
     }
-  } 
+  } //When game piece is pressed, send the info of which piece to the server
+    //Can only move a game piece when the player have rolled/clicked the dice
   
 }

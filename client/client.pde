@@ -25,9 +25,6 @@ boolean newGame;
 int playerNumber = 0;
 int players = 0;
 
-int timer = 0;
-boolean timerBoolean;
-
 game_piece gp11, gp12, gp13, gp14;
 game_piece gp21, gp22, gp23, gp24;
 game_piece gp31, gp32, gp33, gp34;
@@ -66,26 +63,26 @@ void setup() {
   size(1000, 600);
 
   background(255);
-  
- lobby = new lobby();
-  
+
+  lobby = new lobby();
+
   dice = new dice();
-  
+
   //textSize(width/20);
-  
+
   //Connects to the server
-    try {
+  try {
     localhost = InetAddress.getLocalHost();
     //println(localhost.getHostAddress());
   } 
   catch (UnknownHostException e) {
   }
-  
-  
-   //If client is run from another computer, then write the server's IP address instead of localhost.getHostAddress(), e.g. "192.168.0.7"
+
+
+  //If client is run from another computer, then write the server's IP address instead of localhost.getHostAddress(), e.g. "192.168.0.7"
   Player = new Client(this, localhost.getHostAddress(), 5255);
 
-//creates all the pieces needed
+  //creates all the pieces needed
 
   gp11 = new game_piece();
   gp12 = new game_piece();
@@ -103,102 +100,89 @@ void setup() {
   gp42 = new game_piece();
   gp43 = new game_piece();
   gp44 = new game_piece();
-  
-
 }
 
 void draw() {
-  
-  //Checks which gamepiece is in use/needed
-  
-  if (Player.available() > 0) { 
-     dataIn = Player.readString(); 
 
-    if(dataIn.indexOf("gp11") >= 0){
+  //Checks which gamepiece is in use/needed
+
+  if (Player.available() > 0) { 
+    dataIn = Player.readString(); 
+
+    if (dataIn.indexOf("gp11") >= 0) {
       gp11X = Integer.parseInt(dataIn.split(",")[1]);
       gp11Y = Integer.parseInt(dataIn.split(",")[2]);
-    } 
-    else if(dataIn.indexOf("gp12") >= 0){
+    } else if (dataIn.indexOf("gp12") >= 0) {
       gp12X = Integer.parseInt(dataIn.split(",")[1]);
       gp12Y = Integer.parseInt(dataIn.split(",")[2]);
-    } 
-    else if(dataIn.indexOf("gp13") >= 0){
+    } else if (dataIn.indexOf("gp13") >= 0) {
       gp13X = Integer.parseInt(dataIn.split(",")[1]);
       gp13Y = Integer.parseInt(dataIn.split(",")[2]);
-    } 
-    else if(dataIn.indexOf("gp14") >= 0){
+    } else if (dataIn.indexOf("gp14") >= 0) {
       gp14X = Integer.parseInt(dataIn.split(",")[1]);
       gp14Y = Integer.parseInt(dataIn.split(",")[2]);
     } 
-    
+
     //Yellow
-    else if(dataIn.indexOf("gp21") >= 0){
+    else if (dataIn.indexOf("gp21") >= 0) {
       gp21X = Integer.parseInt(dataIn.split(",")[1]);
       gp21Y = Integer.parseInt(dataIn.split(",")[2]);
-    } 
-    else if(dataIn.indexOf("gp22") >= 0){
+    } else if (dataIn.indexOf("gp22") >= 0) {
       gp22X = Integer.parseInt(dataIn.split(",")[1]);
       gp22Y = Integer.parseInt(dataIn.split(",")[2]);
-    } 
-    else if(dataIn.indexOf("gp23") >= 0){
+    } else if (dataIn.indexOf("gp23") >= 0) {
       gp23X = Integer.parseInt(dataIn.split(",")[1]);
       gp23Y = Integer.parseInt(dataIn.split(",")[2]);
-    } 
-    else if(dataIn.indexOf("gp24") >= 0){
+    } else if (dataIn.indexOf("gp24") >= 0) {
       gp24X = Integer.parseInt(dataIn.split(",")[1]);
       gp24Y = Integer.parseInt(dataIn.split(",")[2]);
     } 
-    
+
     //Blue
-    else if(dataIn.indexOf("gp31") >= 0){
+    else if (dataIn.indexOf("gp31") >= 0) {
       gp31X = Integer.parseInt(dataIn.split(",")[1]);
       gp31Y = Integer.parseInt(dataIn.split(",")[2]);
-    } 
-    else if(dataIn.indexOf("gp32") >= 0){
+    } else if (dataIn.indexOf("gp32") >= 0) {
       gp32X = Integer.parseInt(dataIn.split(",")[1]);
       gp32Y = Integer.parseInt(dataIn.split(",")[2]);
-    } 
-    else if(dataIn.indexOf("gp33") >= 0){
+    } else if (dataIn.indexOf("gp33") >= 0) {
       gp33X = Integer.parseInt(dataIn.split(",")[1]);
       gp33Y = Integer.parseInt(dataIn.split(",")[2]);
-    } 
-    else if(dataIn.indexOf("gp34") >= 0){
+    } else if (dataIn.indexOf("gp34") >= 0) {
       gp34X = Integer.parseInt(dataIn.split(",")[1]);
       gp34Y = Integer.parseInt(dataIn.split(",")[2]);
     } 
-    
+
     //Red
-    else if(dataIn.indexOf("gp41") >= 0){
+    else if (dataIn.indexOf("gp41") >= 0) {
       gp41X = Integer.parseInt(dataIn.split(",")[1]);
       gp41Y = Integer.parseInt(dataIn.split(",")[2]);
-    } 
-    else if(dataIn.indexOf("gp42") >= 0){
+    } else if (dataIn.indexOf("gp42") >= 0) {
       gp42X = Integer.parseInt(dataIn.split(",")[1]);
       gp42Y = Integer.parseInt(dataIn.split(",")[2]);
-    } 
-    else if(dataIn.indexOf("gp43") >= 0){
+    } else if (dataIn.indexOf("gp43") >= 0) {
       gp43X = Integer.parseInt(dataIn.split(",")[1]);
       gp43Y = Integer.parseInt(dataIn.split(",")[2]);
-    } 
-    else if(dataIn.indexOf("gp44") >= 0){
+    } else if (dataIn.indexOf("gp44") >= 0) {
       gp44X = Integer.parseInt(dataIn.split(",")[1]);
       gp44Y = Integer.parseInt(dataIn.split(",")[2]);
-    } 
-   }  
-   
-   
+    }
+  }  
+
+
   if (!newGame && !start) {
     lobby.startScreen();
   } else if (newGame && !start) {
-    
+
     lobby.makeLobby(players);
-    
+
     playerNumber = lobby.getPlayerNumber();
-    
-    textSize(width/10);
-    text(str(players), 325, 425);
+
+    fill(0);
+    textSize(width/15);
+    text(str(players), 325, 320);
   } else {
-    
+
     image(board, 0, 0);
 
     gp11.place(gp11X, gp11Y, 1);
@@ -206,19 +190,41 @@ void draw() {
     gp13.place(gp13X, gp13Y, 1);
     gp14.place(gp14X, gp14Y, 1);
 
-
+    if (gp11X == 262 && gp12X == 262 && gp13X == 262 && gp14X == 262 && gp11Y == 299 && gp12Y == 299 && gp13Y == 299 && gp14Y == 299) {
+      fill(255);
+      rect(100, 200, 400, 200);
+      fill(0, 255, 0);
+      textSize(width/40);
+      text("GREEN PLAYER HAS WON!", 140, 300);
+    }
 
     gp21.place(gp21X, gp21Y, 2);
     gp22.place(gp22X, gp22Y, 2);
     gp23.place(gp23X, gp23Y, 2);
     gp24.place(gp24X, gp24Y, 2);
-//If there is only 2 players, show only the 2 players' game pieces
+
+    if (gp21X == 299 && gp22X == 299 && gp23X == 299 && gp24X == 299 && gp21Y == 262 && gp22Y == 262 && gp23Y == 262 && gp24Y == 262) {
+      fill(255);
+      rect(100, 200, 400, 200);
+      fill(255, 0, 0);
+      textSize(width/40);
+      text("RED PLAYER HAS WON!", 140, 300);
+    }
+    //If there is only 2 players, show only the 2 players' game pieces
 
     if (players == 3) {
       gp31.place(gp31X, gp31Y, players);
       gp32.place(gp32X, gp32Y, players);
       gp33.place(gp33X, gp33Y, players);
       gp34.place(gp34X, gp34Y, players);
+
+      if (gp31X == 335 && gp32X == 335 && gp33X == 335 && gp34X == 335 && gp31Y == 299 && gp32Y == 299 && gp33Y == 299 && gp34Y == 299) {
+        fill(255);
+        rect(width/2, height/2, 150, 50);
+        fill(255, 255, 0);
+        textSize(width/40);
+        text("YELLOW PLAYER HAS WON!", 140, 300);
+      }
     }  //If 3 also show the thirds' game pieces
 
     if (players == 4) {
@@ -227,10 +233,26 @@ void draw() {
       gp33.place(gp33X, gp33Y, players-1);
       gp34.place(gp34X, gp34Y, players-1);
 
+      if (gp31X == 335 && gp32X == 335 && gp33X == 335 && gp34X == 335 && gp31Y == 299 && gp32Y == 299 && gp33Y == 299 && gp34Y == 299) {
+        fill(255);
+        rect(100, 200, 400, 200);
+        fill(255, 255, 0);
+        textSize(width/40);
+        text("YELLOW PLAYER HAS WON!", 140, 300);
+      }
+
       gp41.place(gp41X, gp41Y, players);
       gp42.place(gp42X, gp42Y, players);
       gp43.place(gp43X, gp43Y, players);
       gp44.place(gp44X, gp44Y, players);
+
+      if (gp41X == 299 && gp42X == 299 && gp43X == 299 && gp44X == 299 && gp41Y == 335 && gp42Y == 335 && gp43Y == 335 && gp44Y == 335) {
+        fill(255);
+        rect(100, 200, 400, 200);
+        fill(0, 0, 255);
+        textSize(width/40);
+        text("BLUE PLAYER HAS WON!", 140, 300);
+      }
     }  //and if 4 show both the thirds' and fourth's game pieces
 
     fill(255);
@@ -239,14 +261,13 @@ void draw() {
     textSize(width/20);
     text("Roll dice", 620, 275);
   }
-  
 }
 
 void mousePressed() {
   if (mouseButton == LEFT && start == true) {
     if (mouseX > 600 && mouseX < 850 && mouseY > 200 && mouseY < 320) {
       diceRoll = dice.roll();
-      
+
       Player.write(diceRoll+"");
 
       isDiceRolled = true;
@@ -263,15 +284,15 @@ void mousePressed() {
         image(dice5, 675, 50);
       } else if (diceRoll == 6) {
         image(dice6, 675, 50);
-      } 
-    } 
+      }
+    }
   } //If mouse is pressed on the dice, it will show the random number with a picture of the number of dots.
   //println(playerNumber);
-  
+
   if (mouseButton == LEFT && isDiceRolled == true && playerNumber == 1) {
- 
+
     if (mouseX > gp11X-15 && mouseX < gp11X+15 && mouseY > gp11Y-15 && mouseY < gp11Y+15) {
-      
+
       Player.write(11+"");
       isDiceRolled = false;
     } else if (mouseX > gp12X-15 && mouseX < gp12X+15 && mouseY > gp12Y-15 && mouseY < gp12Y+15) {
@@ -283,7 +304,7 @@ void mousePressed() {
     } else if (mouseX > gp14X-15 && mouseX < gp14X+15 && mouseY > gp14Y-15 && mouseY < gp14Y+15) {
       Player.write(14+"");
       isDiceRolled = false;
-    } 
+    }
   } 
 
 
@@ -334,6 +355,5 @@ void mousePressed() {
       isDiceRolled = false;
     }
   } //When game piece is pressed, send the info of which piece to the server
-    //Can only move a game piece when the player have rolled/clicked the dice
-  
+  //Can only move a game piece when the player have rolled/clicked the dice
 }

@@ -4,8 +4,6 @@ class lobby {
 
   int fadeValue = 255;
   boolean fade = false;
-  int rect = 700;
-  int connection = 1;
   boolean connected;
   boolean playerLock;
   int playerNumber = 0;
@@ -43,7 +41,7 @@ class lobby {
         newGame = true;
         fill(255);
         rect(0, 0, width, height);
-      } //starts the game 
+      } //starts the game
     }
   }
 
@@ -56,16 +54,35 @@ class lobby {
 
     fill(255, 255, 255, fadeValue);
     rect(100, 200, 500, 300);
-    rect(rect, 200, 250, 120);
-    textSize(width/25);
+    rect(700, 200, 250, 120);
+    textSize(width/50);
     fill(0, 0, 0, fadeValue);
-    text("CONNECT", 725, 275);
+    text("GET A GAME COLOR", 725, 270);
     textSize(width/40);
-    text("PLAYERS CONNECTED TO THE SERVER: ", 120, 275);
-    
+    text("PLAYERS CONNECTED TO THE SERVER: ", 120, 225);
+    text("YOUR COLOR IN GAME IS: ", 200, 375);
+
+    if (connected) {
+      if (playerNumber == 1) {
+        fill(0, 255, 0);
+        rect(310, 400, 80, 80);
+      }
+      if (playerNumber == 2) {
+        fill(255, 0, 0);
+        rect(310, 400, 80, 80);
+      }
+      if (playerNumber == 3) {
+        fill(255, 255, 0);
+        rect(310, 400, 80, 80);
+      }
+      if (playerNumber == 4) {
+        fill(0, 0, 255);
+        rect(310, 400, 80, 80);
+      }
+    }
+
     //Also set up the lobby
 
-    String value = Player.readString();
     if (dataIn.length() == 1) { 
       players = Integer.parseInt(dataIn);
     } //defines players as the converted dataIn
@@ -73,45 +90,42 @@ class lobby {
     if (mouseX > 700 && mouseX < 950 && mouseY > 200 && mouseY < 320 && !connected && !playerLock) {
       if (mousePressed) {
 
-          playerNumber = players;
+        playerNumber = players;
 
-      Player.write(players + ""); //sends the amount of players + a string to the server
-      //the string is to make it not convert the number into a string 
-      connected = true;
-      playerLock = true;
+        Player.write(players + ""); //sends the amount of players + a string to the server
+        //the string is to make it not convert the number into a string 
+        connected = true;
+        playerLock = true;
+      }
     }
-    }
-  
 
-  if (players > 1) {
-    fill(255, 255, 255, fadeValue);
-    rect(700, 375, 250, 120);
-    textSize(width/30);
-    fill(0, 0, 0, fadeValue);
-    text("START GAME", 720, 450);
-    if (mouseX > 700 && mouseX < 950 && mouseY > 375 && mouseY < 500) {
-      if (mousePressed) {
-        fade = true;
-      } //If there is more than one player, the start button is visable 
+
+    if (players > 1) {
+      fill(255, 255, 255, fadeValue);
+      rect(700, 375, 250, 120);
+      textSize(width/30);
+      fill(0, 0, 0, fadeValue);
+      text("START GAME", 720, 450);
+      if (mouseX > 700 && mouseX < 950 && mouseY > 375 && mouseY < 500) {
+        if (mousePressed) {
+          fade = true;
+        } //If there is more than one player, the start button is visable
+      }
+    }
+
+    if (fade) {
+      fadeValue = 0;
+      if (fadeValue <= 0) {
+        start = true;
+        fade = false;
+        fadeValue = 255;
+        fill(255);
+        rect(0, 0, width, height);
+      }
     }
   }
 
-  if (fade) {
-    fadeValue = 0;
-    if (fadeValue <= 0) {
-      start = true;
-      fade = false;
-      fadeValue = 255;
-      fill(255);
-      rect(0, 0, width, height);
-    }
+  int getPlayerNumber () {
+    return playerNumber;
   }
-}
-
-int getPlayerNumber () {
-  return playerNumber;
-}
-int getPlayerAmount () {
-  return players;
-}
 }
